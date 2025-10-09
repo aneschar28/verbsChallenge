@@ -150,9 +150,16 @@ function newverb() {
     
 }
 
+function standardizeName(name) {
+  return name
+    .trim()
+    .toLowerCase()
+
+}
+
 function checkingpas() {
    
-    if (pasado.value === verbosPrincipales[numeroaleatorio].pasado) {
+    if (standardizeName(pasado.value) === verbosPrincipales[numeroaleatorio].pasado) {
         pasado.style.borderColor = "green"
         contador2();
         
@@ -167,7 +174,7 @@ function checkingpas() {
  
 function checkingpar() {
    
-    if (participio.value === verbosPrincipales[numeroaleatorio].participio) {
+    if (standardizeName(participio.value) === verbosPrincipales[numeroaleatorio].participio) {
         
         participio.style.borderColor = "green"
         contador2();
