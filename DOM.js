@@ -6,11 +6,13 @@ const participio = document.getElementById("participio");
 const rightpast = document.getElementById("rightpast");
 const rightparticiple = document.getElementById("rightparticiple");
 const score = document.getElementById("score");
+const score2 = document.getElementById("score2");
 let checkpoint = true;
 
 let i = 0;
 let j = 0;
 let resultado = 0;
+const array = [];
 
 
 let numeroaleatorio;
@@ -124,6 +126,7 @@ function contador2 (){
 
 }
 
+
 function scoring () {
 
    resultado = Math.round(((j/2)/i)*100);
@@ -132,21 +135,33 @@ function scoring () {
    
 }
 
-function aleatorio() {
-    numeroaleatorio = Math.floor(Math.random() * verbosPrincipales.length); 
-    return numeroaleatorio;
+function shuffledNumbers(number) {
+  
+
+  // crear array [1, 2, 3, ..., number]
+  for (let i = 1; i <= number; i++) {
+    array.push(i);
+  }
+
+  // mezclar array (Fisher-Yates)
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+
+  return array;
 }
 
 function newverb() {
-    verb.innerText = verbosPrincipales[aleatorio()].presente;
+    verb.innerText = verbosPrincipales[array[i]].presente;
     pasado.value = "";
     participio.value = "";
     pasado.style.borderColor = "black";
     participio.style.borderColor = "black";
     rightpast.innerText = "";
     rightparticiple.innerText = "";
-    contador();
-    console.log(verbosPrincipales[numeroaleatorio]);
+    console.log(verbosPrincipales[array[i]]);
     
 }
 
@@ -159,13 +174,13 @@ function standardizeName(name) {
 
 function checkingpas() {
    
-    if (standardizeName(pasado.value) === verbosPrincipales[numeroaleatorio].pasado) {
+    if (standardizeName(pasado.value) === verbosPrincipales[array[i]].pasado) {
         pasado.style.borderColor = "green"
         contador2();
         
     } else {
         pasado.style.borderColor = "red"
-        rightpast.innerText = `${verbosPrincipales[numeroaleatorio].pasado}`
+        rightpast.innerText = `${verbosPrincipales[array[i]].pasado}`
    
     }
 
@@ -174,19 +189,20 @@ function checkingpas() {
  
 function checkingpar() {
    
-    if (standardizeName(participio.value) === verbosPrincipales[numeroaleatorio].participio) {
+    if (standardizeName(participio.value) === verbosPrincipales[array[i]].participio) {
         
         participio.style.borderColor = "green"
         contador2();
     } else {
         
         participio.style.borderColor = "red"
-        rightparticiple.innerText = `${verbosPrincipales[numeroaleatorio].participio}`
+        rightparticiple.innerText = `${verbosPrincipales[array[i]].participio}`
     }
 
     
 }
 
+shuffledNumbers(verbosPrincipales.length);
 newverb();
 
 
@@ -196,7 +212,9 @@ check.addEventListener("click", () => {
     if (checkpoint) {
         checkingpas();
         checkingpar();
+        contador()
         scoring();
+        score2.innerText = i;
         checkpoint = false;
     }
 });
@@ -205,5 +223,6 @@ tryagain.addEventListener("click", () => {
     newverb();
     checkpoint = true;
 });
+
 
 
